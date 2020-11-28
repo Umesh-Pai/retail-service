@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: retail-service
+spec:
+  selector:
+    matchLabels:
+      app: retail-service
+  replicas: 1
+  template:
+    metadata:
+      name: retail-service-pod
+      labels:
+        app: retail-service
+    spec:
+      containers:
+      - name: retail-service-pod
+        image: umesh0166/retail-service:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: retail-service-lb
+spec:
+  selector:
+    app: retail-service
+  ports:
+    - protocol: TCP
+      port: 8081
+      targetPort: 8081
+  type: LoadBalancer
