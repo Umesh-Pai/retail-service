@@ -15,7 +15,7 @@ pipeline {
         stage('Deploy to GKE') {
             steps{
                 sh "sed -i 's/retail-service:latest/retail-service:latest/g' kube/retail-service.yaml"
-                step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'retail-service.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
+                step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'kube/retail-service.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
             }
         }
     }    
