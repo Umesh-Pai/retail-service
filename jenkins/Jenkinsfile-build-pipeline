@@ -23,7 +23,7 @@ pipeline {
 		stage("docker build image") {
             steps {
                 script {
-                    myapp = docker.build("umesh0166/retail-service:${env.BUILD_ID}")
+                    myapp = docker.build("umesh0166/retail-service:${env.BUILD_ID}", "./docker")
                 }
             }
         }
