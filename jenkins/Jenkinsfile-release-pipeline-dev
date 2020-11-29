@@ -1,0 +1,22 @@
+pipeline {
+    agent any
+    environment {
+        PROJECT_ID = 'ringed-empire-292313'
+        CLUSTER_NAME = 'kube-cluster'
+        LOCATION = 'us-central1-c'
+        CREDENTIALS_ID = 'gke'
+    }
+    stages {
+        stage("Checkout code") {
+            steps {
+                checkout scm
+            }
+        }
+        stage('Deploy to GKE') {
+            steps{
+                sh "sed -i 's/retail-service:latest/retail-service:latest/g' kube/retail-service-dev.yaml"
+                step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'kube/retail-service-dev.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
+            }
+        }
+    }    
+}
